@@ -71,7 +71,7 @@ class Product(models.Model):
 
     def isRecursion(self):  # 防止引用自身发生递归
         global s
-        if self.getBom.all().count():  # 此产品有BOM表
+        if self.Bom.all().count():  # 此产品有BOM表
             if s.count(self):  # 判断BOM表中是否为重复项
                 print(self, "为重复项", s)
                 q = s
@@ -79,12 +79,13 @@ class Product(models.Model):
                 s.clear()
                 return(q)
             else:
-                b = self.getBom.all()  # 获取产品BOM表
+                b = self.Bom.all()  # 获取产品BOM表
+                print(b)
                 s.append(self)  # 入栈
                 print(self, "入栈", s)
                 if s:  # 出现循环后s已被清空，无需执行下面操作
                     for a in b:
-                        a.isRecursion()
+                        a.productId.isRecursion()
                     if s:  # 防止s被清空后pop()报错
                         s.pop()  # 遍历结束一张BMO，出栈
                         print("上一节点出栈", s)
@@ -118,13 +119,16 @@ class Product(models.Model):
 
 
 class BomItem(models.Model):
-    # 主表反向查询 product.getBom.all()
-    parentProductId = models.ForeignKey(Product, related_name = 'getBom', on_delete=models.CASCADE)
+    # 主表反向查询 product.Bom.all()
+    parentProductId = models.ForeignKey(Product, related_name = 'Bom', on_delete=models.CASCADE)
     productId = models.ForeignKey(Product, on_delete=models.CASCADE,null = True)
     unitId = models.ForeignKey(partUnit, null=True, on_delete=models.SET_NULL)
     itemCount = models.FloatField()
     note = models.TextField(null = True)
     modified = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.productId.productName
 
 '''
 from master.models import Product
