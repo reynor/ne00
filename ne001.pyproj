@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{15fb124f-d0c5-47a1-937a-025d55297568}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="app\forms.py" />
+    <Compile Include="app\migrations\__init__.py" />
+    <Compile Include="app\models.py" />
+    <Compile Include="app\tests.py" />
+    <Compile Include="app\views.py" />
+    <Compile Include="app\__init__.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="master\admin.py" />
+    <Compile Include="master\apps.py" />
+    <Compile Include="master\migrations\__init__.py" />
+    <Compile Include="master\models.py" />
+    <Compile Include="master\tests.py" />
+    <Compile Include="master\views.py" />
+    <Compile Include="master\__init__.py" />
+    <Compile Include="ne00\settings.py" />
+    <Compile Include="ne00\urls.py" />
+    <Compile Include="ne00\wsgi.py" />
+    <Compile Include="ne00\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\static\admin\css\autocomplete.css" />
+    <Content Include="app\static\admin\css\base.css" />
+    <Content Include="app\static\admin\css\changelists.css" />
+    <Content Include="app\static\admin\css\dashboard.css" />
+    <Content Include="app\static\admin\css\fonts.css" />
+    <Content Include="app\static\admin\css\forms.css" />
+    <Content Include="app\static\admin\css\login.css" />
+    <Content Include="app\static\admin\css\responsive.css" />
+    <Content Include="app\static\admin\css\responsive_rtl.css" />
+    <Content Include="app\static\admin\css\rtl.css" />
+    <Content Include="app\static\admin\css\vendor\select2\select2.css" />
+    <Content Include="app\static\admin\css\vendor\select2\select2.min.css" />
+    <Content Include="app\static\admin\css\widgets.css" />
+    <Content Include="app\static\admin\fonts\LICENSE.txt" />
+    <Content Include="app\static\admin\fonts\README.txt" />
+    <Content Include="app\static\admin\img\calendar-icons.svg" />
+    <Content Include="app\static\admin\img\gis\move_vertex_off.svg" />
+    <Content Include="app\static\admin\img\gis\move_vertex_on.svg" />
+    <Content Include="app\static\admin\img\icon-addlink.svg" />
+    <Content Include="app\static\admin\img\icon-alert.svg" />
+    <Content Include="app\static\admin\img\icon-calendar.svg" />
+    <Content Include="app\static\admin\img\icon-changelink.svg" />
+    <Content Include="app\static\admin\img\icon-clock.svg" />
+    <Content Include="app\static\admin\img\icon-deletelink.svg" />
+    <Content Include="app\static\admin\img\icon-no.svg" />
+    <Content Include="app\static\admin\img\icon-unknown-alt.svg" />
+    <Content Include="app\static\admin\img\icon-unknown.svg" />
+    <Content Include="app\static\admin\img\icon-yes.svg" />
+    <Content Include="app\static\admin\img\inline-delete.svg" />
+    <Content Include="app\static\admin\img\README.txt" />
+    <Content Include="app\static\admin\img\search.svg" />
+    <Content Include="app\static\admin\img\selector-icons.svg" />
+    <Content Include="app\static\admin\img\sorting-icons.svg" />
+    <Content Include="app\static\admin\img\tooltag-add.svg" />
+    <Content Include="app\static\admin\img\tooltag-arrowright.svg" />
+    <Content Include="app\static\admin\js\actions.js" />
+    <Content Include="app\static\admin\js\actions.min.js" />
+    <Content Include="app\static\admin\js\admin\DateTimeShortcuts.js" />
+    <Content Include="app\static\admin\js\admin\RelatedObjectLookups.js" />
+    <Content Include="app\static\admin\js\autocomplete.js" />
+    <Content Include="app\static\admin\js\calendar.js" />
+    <Content Include="app\static\admin\js\cancel.js" />
+    <Content Include="app\static\admin\js\change_form.js" />
+    <Content Include="app\static\admin\js\collapse.js" />
+    <Content Include="app\static\admin\js\collapse.min.js" />
+    <Content Include="app\static\admin\js\core.js" />
+    <Content Include="app\static\admin\js\inlines.js" />
+    <Content Include="app\static\admin\js\inlines.min.js" />
+    <Content Include="app\static\admin\js\jquery.init.js" />
+    <Content Include="app\static\admin\js\popup_response.js" />
+    <Content Include="app\static\admin\js\prepopulate.js" />
+    <Content Include="app\static\admin\js\prepopulate.min.js" />
+    <Content Include="app\static\admin\js\prepopulate_init.js" />
+    <Content Include="app\static\admin\js\SelectBox.js" />
+    <Content Include="app\static\admin\js\SelectFilter2.js" />
+    <Content Include="app\static\admin\js\timeparse.js" />
+    <Content Include="app\static\admin\js\urlify.js" />
+    <Content Include="app\static\admin\js\vendor\jquery\jquery.js" />
+    <Content Include="app\static\admin\js\vendor\jquery\jquery.min.js" />
+    <Content Include="app\static\admin\js\vendor\jquery\LICENSE-JQUERY.txt" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\ar.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\az.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\bg.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\ca.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\cs.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\da.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\de.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\el.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\en.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\es.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\et.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\eu.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\fa.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\fi.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\fr.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\gl.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\he.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\hi.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\hr.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\hu.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\id.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\is.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\it.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\ja.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\km.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\ko.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\lt.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\lv.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\mk.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\ms.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\nb.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\nl.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\pl.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\pt-BR.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\pt.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\ro.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\ru.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\sk.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\sr-Cyrl.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\sr.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\sv.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\th.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\tr.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\uk.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\vi.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\zh-CN.js" />
+    <Content Include="app\static\admin\js\vendor\select2\i18n\zh-TW.js" />
+    <Content Include="app\static\admin\js\vendor\select2\select2.full.js" />
+    <Content Include="app\static\admin\js\vendor\select2\select2.full.min.js" />
+    <Content Include="app\static\admin\js\vendor\xregexp\LICENSE-XREGEXP.txt" />
+    <Content Include="app\static\admin\js\vendor\xregexp\xregexp.js" />
+    <Content Include="app\static\admin\js\vendor\xregexp\xregexp.min.js" />
+    <Content Include="app\static\app\content\bootstrap.css" />
+    <Content Include="app\static\app\content\bootstrap.min.css" />
+    <Content Include="app\static\app\content\site.css" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\static\app\scripts\bootstrap.js" />
+    <Content Include="app\static\app\scripts\bootstrap.min.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.min.js" />
+    <Content Include="app\static\app\scripts\jquery.validate-vsdoc.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.min.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="app\static\app\scripts\modernizr-2.6.2.js" />
+    <Content Include="app\static\app\scripts\respond.js" />
+    <Content Include="app\static\app\scripts\respond.min.js" />
+    <Content Include="app\static\app\scripts\_references.js" />
+    <Content Include="app\static\test00.html" />
+    <Content Include="app\templates\app\about.html" />
+    <Content Include="app\templates\app\contact.html" />
+    <Content Include="app\templates\app\index.html" />
+    <Content Include="app\templates\app\layout.html" />
+    <Content Include="app\templates\app\login.html" />
+    <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="master\templates\layout.html" />
+    <Content Include="master\templates\login.html" />
+    <Content Include="master\__pycache__\admin.cpython-36.pyc" />
+    <Content Include="master\__pycache__\models.cpython-36.pyc" />
+    <Content Include="master\__pycache__\views.cpython-36.pyc" />
+    <Content Include="master\__pycache__\__init__.cpython-36.pyc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app" />
+    <Folder Include="app\migrations" />
+    <Folder Include="app\static" />
+    <Folder Include="app\static\admin\" />
+    <Folder Include="app\static\admin\css" />
+    <Folder Include="app\static\admin\css\vendor\" />
+    <Folder Include="app\static\admin\css\vendor\select2" />
+    <Folder Include="app\static\admin\fonts" />
+    <Folder Include="app\static\admin\img" />
+    <Folder Include="app\static\admin\img\gis" />
+    <Folder Include="app\static\admin\js" />
+    <Folder Include="app\static\admin\js\admin" />
+    <Folder Include="app\static\admin\js\vendor\" />
+    <Folder Include="app\static\admin\js\vendor\jquery" />
+    <Folder Include="app\static\admin\js\vendor\select2" />
+    <Folder Include="app\static\admin\js\vendor\select2\i18n" />
+    <Folder Include="app\static\admin\js\vendor\xregexp" />
+    <Folder Include="app\static\app\" />
+    <Folder Include="app\static\app\content" />
+    <Folder Include="app\static\app\fonts" />
+    <Folder Include="app\static\app\scripts" />
+    <Folder Include="app\templates\" />
+    <Folder Include="app\templates\app" />
+    <Folder Include="master" />
+    <Folder Include="master\migrations" />
+    <Folder Include="master\templates\" />
+    <Folder Include="master\__pycache__\" />
+    <Folder Include="ne00" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>

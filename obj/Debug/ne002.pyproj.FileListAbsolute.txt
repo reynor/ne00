@@ -1,0 +1,6 @@
+D:\sync\htdocs\ne00\obj\Debug\ne002.pyproj.CoreCompileInputs.cache
+D:\sync\htdocs\ne00\bin\Microsoft.PythonTools.WebRole.dll
+D:\sync\htdocs\ne00\bin\wfastcgi.py
+E:\xampp\htdocs\ne00\obj\Debug\ne002.pyproj.CoreCompileInputs.cache
+E:\xampp\htdocs\ne00\bin\Microsoft.PythonTools.WebRole.dll
+E:\xampp\htdocs\ne00\bin\wfastcgi.py
