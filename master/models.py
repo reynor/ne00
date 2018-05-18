@@ -46,22 +46,23 @@ class CompanyContact(models.Model):
 
 
 class partUnit(models.Model):
-    dimension = models.CharField(max_length=20, unique=True,db_index=True)
+    dimension = models.CharField(max_length=20, unique=True, db_index=True)
     conversion = models.FloatField()
     # def __init__(self, dimension, conversion):
 
 
 # 产品
 s = []  # 一个stack，记录遍历过的有bom表的产品
-resultList = [] #因递归经常产生 None 返回，使用此变量储存结果
+resultList = []  # 因递归经常产生 None 返回，使用此变量储存结果
 
 
 class Product(models.Model):
     # from master.models import Product  #调试时导入
-    productId = models.CharField(max_length=20, unique=True)
-    productName = models.CharField(max_length=20, null=True)
-    specification = models.TextField(null = True)
-    productBrand = models.CharField(max_length=20, null=True)
+    productId = models.CharField(max_length=20, unique=True, db_index=True)
+    productName = models.CharField(max_length=20, null=True, db_index=True)
+    #specification = models.TextField(null=True, db_index=True)
+    specification = models.CharField(max_length=200,null=True, db_index=True)
+    productBrand = models.CharField(max_length=20, null=True, db_index=True)
     # Product.objects.filter(bom__isnull=False)   #返回有BOM的产品
     # 取消反向相对关系  symmetrical=False, 只能在'self'时使用
     #bom = models.ManyToManyField('self', symmetrical=False)
@@ -72,7 +73,7 @@ class Product(models.Model):
         return self.productName
 
     def isRecursion(self):  # 防止引用自身发生递归  #实际为私有方法
-        global s,resultList
+        global s, resultList
         if self.Bom.all().count():  # 此产品有BOM表
             if s.count(self):  # 判断BOM表中是否为重复项
                 print(self, "为重复项", s)
@@ -103,15 +104,15 @@ class Product(models.Model):
         self.isRecursion()
         return resultList
 
-    def getFullParts(self): #配合BomItem中的同名方法使用
+    def getFullParts(self):  # 配合BomItem中的同名方法使用
         # 返回无子BOM的零件表
         global resultList
         resultList.clear()
         b = self.Bom.all()
         n = 0
         for a in b:
-            n=n+1
-            print("第%d次循环"%n)
+            n = n+1
+            print("第%d次循环" % n)
             #bomList.append(a)
             print(a.getFullParts())
             #bomList.append(a.getFullParts())
@@ -120,17 +121,18 @@ class Product(models.Model):
 
 class BomItem(models.Model):
     # 主表反向查询 product.Bom.all()
-    parentProduct = models.ForeignKey(Product, related_name = 'Bom', on_delete=models.CASCADE,null = True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE,null = True)
+    parentProduct = models.ForeignKey(
+        Product, related_name='Bom', on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     unit = models.ForeignKey(partUnit, null=True, on_delete=models.SET_NULL)
     itemCount = models.FloatField()
-    note = models.TextField(null = True)
+    note = models.TextField(null=True)
     modified = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.product.productName
 
-    def getFullParts(self): # 实为内部函数，配合Product中同名方法使用
+    def getFullParts(self):  # 实为内部函数，配合Product中同名方法使用
         # 返回无子BOM的零件表
         if self.product.Bom.all().count():
             print("There is BOM:    "+self.__str__())
@@ -140,6 +142,7 @@ class BomItem(models.Model):
         else:
             print("写入列表:    "+self.__str__())
             resultList.append(self)
+
 
 '''
 from master.models import Product
