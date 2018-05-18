@@ -24,8 +24,7 @@ class Staff(models.Model):
     userName = models.CharField(max_length=10)
     department = models.CharField(max_length=20, null=True)
     job = models.CharField(max_length=20, null=True)
-    company = models.ForeignKey(
-        Company, null=True, on_delete=models.SET_NULL)  # 员工所属公司
+    company = models.ForeignKey(Company, null=True, on_delete=models.SET_NULL)  # 员工所属公司
 
 # 员工联系方式
 
@@ -130,7 +129,7 @@ class BomItem(models.Model):
     modified = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.product.productName
+        return self.product.productName + ":" + str(self.itemCount)
 
     def getFullParts(self):  # 实为内部函数，配合Product中同名方法使用
         # 返回无子BOM的零件表
@@ -138,6 +137,7 @@ class BomItem(models.Model):
             print("There is BOM:    "+self.__str__())
             b = self.product.Bom.all()
             for a in b:
+                a.itemCount = a.itemCount * self.itemCount
                 a.getFullParts()
         else:
             print("写入列表:    "+self.__str__())
@@ -145,7 +145,7 @@ class BomItem(models.Model):
 
 
 '''
-from master.models import Product
+from master.models import Product,BomItem,Staff
 a=Product.objects.filter(bom__isnull=False)
 b=Product.objects.create(name="Joe"***)
 a.bom.add()
