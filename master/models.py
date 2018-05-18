@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
+import copy
 
 # Create your models here.
 
@@ -52,6 +53,7 @@ class partUnit(models.Model):
 
 # 产品
 s = []  # 一个stack，记录遍历过的有bom表的产品
+resultList = [] #因递归经常产生 None 返回，使用此变量储存结果
 
 
 class Product(models.Model):
@@ -69,66 +71,75 @@ class Product(models.Model):
     def __str__(self):
         return self.productName
 
-    def isRecursion(self):  # 防止引用自身发生递归
-        global s
+    def isRecursion(self):  # 防止引用自身发生递归  #实际为私有方法
+        global s,resultList
         if self.Bom.all().count():  # 此产品有BOM表
             if s.count(self):  # 判断BOM表中是否为重复项
                 print(self, "为重复项", s)
-                q = s
-                q.append(self)
+                s.append(self)
+                resultList = copy.copy(s)
                 s.clear()
-                return(q)
+                return(resultList)
             else:
                 b = self.Bom.all()  # 获取产品BOM表
-                print(b)
+                #print(b)
                 s.append(self)  # 入栈
-                print(self, "入栈", s)
+                #print(self, "入栈", s)
                 if s:  # 出现循环后s已被清空，无需执行下面操作
                     for a in b:
-                        a.productId.isRecursion()
+                        a.product.isRecursion()
                     if s:  # 防止s被清空后pop()报错
                         s.pop()  # 遍历结束一张BMO，出栈
-                        print("上一节点出栈", s)
+                        #print("上一节点出栈", s)
                         if len(s) == 0:
                             print("无重复项，最后节点：", self)
+                            resultList = copy.copy(s)
                             return(s)
         # return(self.bom.filter(bom__isnull=True))
 
-    def getBomItem(self):
-        # 自建SQL，通过productId引索bom关系表，返回self的对应BomItem
-        print(self.getBom.all())
-    def addBomItem(self):
-        # 在模型中添加bom项
-        pass
+    def isErrorBom(self):
+        global resultList
+        resultList.clear()
+        self.isRecursion()
+        return resultList
 
-    def migrateBom(self):
-        # 将模型中的bom写入数据库
-        pass
-
-    def getFullParts(self):
+    def getFullParts(self): #配合BomItem中的同名方法使用
         # 返回无子BOM的零件表
-        if self.bom.count():
-            #print("There is BOM")
-            b = self.bom.all()
-            for a in b:
-                a.isRecursion()
-        else:
-            # 未读写数据库，应该不会造成过大开销
-            bomList.add(self.getBomItem)
-            # print(self)
+        global resultList
+        resultList.clear()
+        b = self.Bom.all()
+        n = 0
+        for a in b:
+            n=n+1
+            print("第%d次循环"%n)
+            #bomList.append(a)
+            print(a.getFullParts())
+            #bomList.append(a.getFullParts())
+        return(resultList)
 
 
 class BomItem(models.Model):
     # 主表反向查询 product.Bom.all()
-    parentProductId = models.ForeignKey(Product, related_name = 'Bom', on_delete=models.CASCADE)
-    productId = models.ForeignKey(Product, on_delete=models.CASCADE,null = True)
-    unitId = models.ForeignKey(partUnit, null=True, on_delete=models.SET_NULL)
+    parentProduct = models.ForeignKey(Product, related_name = 'Bom', on_delete=models.CASCADE,null = True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,null = True)
+    unit = models.ForeignKey(partUnit, null=True, on_delete=models.SET_NULL)
     itemCount = models.FloatField()
     note = models.TextField(null = True)
     modified = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.productId.productName
+        return self.product.productName
+
+    def getFullParts(self): # 实为内部函数，配合Product中同名方法使用
+        # 返回无子BOM的零件表
+        if self.product.Bom.all().count():
+            print("There is BOM:    "+self.__str__())
+            b = self.product.Bom.all()
+            for a in b:
+                a.getFullParts()
+        else:
+            print("写入列表:    "+self.__str__())
+            resultList.append(self)
 
 '''
 from master.models import Product
