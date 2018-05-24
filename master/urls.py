@@ -24,4 +24,5 @@ urlpatterns = [
             'next_page': '/',
         },
         name='logout'),
+    path('getdata/',views.getProducts,name='getdata'),
 ]

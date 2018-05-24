@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #'master',   #如此书写可正确运行，官网中按如下格式书写
     'master.apps.MasterConfig',
+    # dajax相关
+    # 'dajaxice',
+    # 'dajax',
 ]
 
 MIDDLEWARE = [

@@ -3,8 +3,15 @@ import datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
 import copy
+import json
 
 # Create your models here.
+#日期转json
+# class CJSONEncoder(self,o):
+#     if isinstance(o,datetime.datetime):
+#         return o.strftime("%Y-%m-%d %H-%M-%S")
+#     if isinstance(o,datetime.date):
+#         return o.strftime("%Y-%m-%d")
 
 
 class Tag(models.Model):
@@ -66,7 +73,7 @@ class Product(models.Model):
     # 取消反向相对关系  symmetrical=False, 只能在'self'时使用
     #bom = models.ManyToManyField('self', symmetrical=False)
     tags = models.ManyToManyField(Tag)
-    modified = models.DateField(auto_now=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.productName
@@ -126,7 +133,7 @@ class BomItem(models.Model):
     unit = models.ForeignKey(partUnit, null=True, on_delete=models.SET_NULL)
     itemCount = models.FloatField()
     note = models.TextField(null=True)
-    modified = models.DateField(auto_now=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.product.productName + ":" + str(self.itemCount)
