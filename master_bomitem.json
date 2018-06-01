@@ -1,0 +1,49 @@
+{
+    "RECORDS": [
+        {
+            "id": "1",
+            "itemCount": "1",
+            "note": "",
+            "modified": "17/5/2018",
+            "parentProduct_id": "1",
+            "product_id": "2",
+            "unit_id": ""
+        },
+        {
+            "id": "2",
+            "itemCount": "1",
+            "note": "",
+            "modified": "17/5/2018",
+            "parentProduct_id": "2",
+            "product_id": "3",
+            "unit_id": ""
+        },
+        {
+            "id": "3",
+            "itemCount": "10",
+            "note": "",
+            "modified": "17/5/2018",
+            "parentProduct_id": "3",
+            "product_id": "4",
+            "unit_id": ""
+        },
+        {
+            "id": "4",
+            "itemCount": "1",
+            "note": "",
+            "modified": "17/5/2018",
+            "parentProduct_id": "3",
+            "product_id": "5",
+            "unit_id": ""
+        },
+        {
+            "id": "5",
+            "itemCount": "23",
+            "note": "",
+            "modified": "17/5/2018",
+            "parentProduct_id": "2",
+            "product_id": "4",
+            "unit_id": ""
+        }
+    ]
+}

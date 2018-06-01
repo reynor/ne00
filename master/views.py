@@ -37,17 +37,34 @@ def getProducts(request):
     b = int(b)
     return HttpResponse(str(a+b))  
     '''
-    #js = '{"data":[["TP640-441","1","H300-015-100","新亿星","11-32"],["TP640-441","2","H300-015-100","新亿星","11-32"],["TP640-441","3","H300-015-100","新亿星","11-32"],["TP640-441","4","H300-015-100","新亿星","11-32"],["TP640-441","5","H300-015-100","新亿星","11-32"],["TP640-441","6","H300-015-100","新亿星","11-32"],["TP640-441","7","H300-015-100","新亿星","11-32"],["TP640-441","8","H300-015-100","新亿星","11-32"],["TP640-441","9","H300-015-100","新亿星","11-32"],["TP640-441","11","H300-015-100","新亿星","11-32"],["TP640-441","22","H300-015-100","新亿星","11-32"],["TP640-441","33","H300-015-100","新亿星","11-32"],["TP640-441","44","H300-015-100","新亿星","11-32"],["TP640-441","55","H300-015-100","新亿星","11-32"],["TP640-441","66","H300-015-100","新亿星","11-32"]]}'
     products=Product.objects.values()
     products=list(products)
     for a in products:
         a['modified']=a['modified'].strftime("%Y-%m-%d %H-%M-%S")
+        #a['id']=str(a['id'])
     js = '{"data":'+json.dumps(products)+"}"
     return HttpResponse(js)
     '''实时数据反馈
     a = request.POST['a']
     return HttpResponse(str(a)+" -ajax")
     '''
+
+@login_required
+def getBom(request):
+    partId=request.POST['id']
+    product=Product.objects.get(pk= partId)
+    products=product.Bom.all()
+    c=[]
+    for a in products:
+        #b=a.parentProduct
+        b=a.product
+        a.modified=a.modified.strftime("%Y-%m-%d %H-%M-%S")
+        d={'id':a.id,'productId': b.productId, 'productName': b.productName,'productBrand':b.productBrand, 'specification': b.specification,'unit':a.unit,'itemCount':a.itemCount,'modified':a.modified}
+        c.append(d)
+        #a['id']=str(a['id'])
+    js = json.dumps(c)
+    return HttpResponse(js)
+    #return HttpResponse(product.__str__())
 
 def login(request):
     return render(request, 'login.html')

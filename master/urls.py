@@ -25,4 +25,5 @@ urlpatterns = [
         },
         name='logout'),
     path('getdata/',views.getProducts,name='getdata'),
+    path('getBom/',views.getBom,name='getBom'),
 ]

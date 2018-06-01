@@ -1,0 +1,44 @@
+{
+    "RECORDS": [
+        {
+            "id": "1",
+            "productId": "8745",
+            "productName": "640钻工中心",
+            "specification": "",
+            "productBrand": "",
+            "modified": "17/5/2018"
+        },
+        {
+            "id": "2",
+            "productId": "85",
+            "productName": "640床身",
+            "specification": "",
+            "productBrand": "",
+            "modified": "17/5/2018"
+        },
+        {
+            "id": "3",
+            "productId": "545",
+            "productName": "Y轴电机座",
+            "specification": "",
+            "productBrand": "",
+            "modified": "17/5/2018"
+        },
+        {
+            "id": "4",
+            "productId": "8v45",
+            "productName": "M8螺钉",
+            "specification": "",
+            "productBrand": "",
+            "modified": "17/5/2018"
+        },
+        {
+            "id": "5",
+            "productId": "1845",
+            "productName": "Y电机",
+            "specification": "",
+            "productBrand": "",
+            "modified": "17/5/2018"
+        }
+    ]
+}

@@ -1,0 +1,88 @@
+{
+    "RECORDS": [
+        {
+            "id": "1",
+            "app": "contenttypes",
+            "name": "0001_initial",
+            "applied": "4/5/2018 01:22:32.18861"
+        },
+        {
+            "id": "2",
+            "app": "auth",
+            "name": "0001_initial",
+            "applied": "4/5/2018 01:22:33.215173"
+        },
+        {
+            "id": "3",
+            "app": "admin",
+            "name": "0001_initial",
+            "applied": "4/5/2018 01:22:33.563734"
+        },
+        {
+            "id": "4",
+            "app": "admin",
+            "name": "0002_logentry_remove_auto_add",
+            "applied": "4/5/2018 01:22:33.681803"
+        },
+        {
+            "id": "5",
+            "app": "contenttypes",
+            "name": "0002_remove_content_type_name",
+            "applied": "4/5/2018 01:22:33.956829"
+        },
+        {
+            "id": "6",
+            "app": "auth",
+            "name": "0002_alter_permission_name_max_length",
+            "applied": "4/5/2018 01:22:34.085817"
+        },
+        {
+            "id": "7",
+            "app": "auth",
+            "name": "0003_alter_user_email_max_length",
+            "applied": "4/5/2018 01:22:34.22599"
+        },
+        {
+            "id": "8",
+            "app": "auth",
+            "name": "0004_alter_user_username_opts",
+            "applied": "4/5/2018 01:22:34.341086"
+        },
+        {
+            "id": "9",
+            "app": "auth",
+            "name": "0005_alter_user_last_login_null",
+            "applied": "4/5/2018 01:22:34.488972"
+        },
+        {
+            "id": "10",
+            "app": "auth",
+            "name": "0006_require_contenttypes_0002",
+            "applied": "4/5/2018 01:22:34.583989"
+        },
+        {
+            "id": "11",
+            "app": "auth",
+            "name": "0007_alter_validators_add_error_messages",
+            "applied": "4/5/2018 01:22:34.6993"
+        },
+        {
+            "id": "12",
+            "app": "auth",
+            "name": "0008_alter_user_username_max_length",
+            "applied": "4/5/2018 01:22:34.940948"
+        },
+        {
+            "id": "13",
+            "app": "auth",
+            "name": "0009_alter_user_last_name_max_length",
+            "applied": "4/5/2018 01:22:35.0782"
+        },
+        {
+            "id": "14",
+            "app": "sessions",
+            "name": "0001_initial",
+            "applied": "4/5/2018 01:22:35.283505"
+        }
+    ]
+}
