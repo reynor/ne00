@@ -18,12 +18,14 @@ from django.urls import include,path
 from django.conf.urls import url
 #自建内容
 from master import views as master_view
+from products import views as products_view
 #from master import forms as master_forms
 from datetime import datetime
 
 urlpatterns = [
     path(r'',master_view.main),
     #path('login/',master_view.login,name='login'),
-    path('account/',include('master.urls')),
+    path('home/',include('master.urls')),
+    path('maindata/',include('products.urls')),
     path('F95T/', admin.site.urls),
 ]

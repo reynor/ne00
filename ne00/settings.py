@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #'master',   #如此书写可正确运行，官网中按如下格式书写
     'master.apps.MasterConfig',
+    'products.apps.ProductsConfig',
     # dajax相关
     # 'dajaxice',
     # 'dajax',
@@ -68,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #'django.core.context_processors.static',#静态文件
             ],
         },
     },

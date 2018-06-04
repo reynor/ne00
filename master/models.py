@@ -74,6 +74,7 @@ class Product(models.Model):
     #bom = models.ManyToManyField('self', symmetrical=False)
     tags = models.ManyToManyField(Tag)
     modified = models.DateTimeField(auto_now=True)
+    modiUser = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.productName
@@ -127,13 +128,13 @@ class Product(models.Model):
 
 class BomItem(models.Model):
     # 主表反向查询 product.Bom.all()
-    parentProduct = models.ForeignKey(
-        Product, related_name='Bom', on_delete=models.CASCADE, null=True)
+    parentProduct = models.ForeignKey(Product, related_name='Bom', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     unit = models.ForeignKey(partUnit, null=True, on_delete=models.SET_NULL)
     itemCount = models.FloatField()
     note = models.TextField(null=True)
     modified = models.DateTimeField(auto_now=True)
+    modiUser = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.product.productName + ":" + str(self.itemCount)
