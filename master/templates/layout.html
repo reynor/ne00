@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-    {% load staticfiles %}
+{% load staticfiles %}
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +15,7 @@
   <link rel="stylesheet" href="{%static 'fonts.googleapis.css'%}">
 </head>
 {#{s1}#} {% with s1=user.staff%}
+
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
     <header class="main-header">
@@ -22,7 +24,7 @@
           <span class="sr-only">Toggle navigation</span>
         </a>
         <div class="navbar-custom-menu">
-          
+
           <ul class="nav navbar-nav">
             {% comment %} 消息提示（message、task、）
             <!-- Messages: style can be found in dropdown.less-->
@@ -128,7 +130,7 @@
                 </li>
               </ul>
             </li>
-            {% endcomment %}  
+            {% endcomment %}
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
               <!-- Menu Toggle Button -->
@@ -201,9 +203,73 @@
             <a href="#">
               <i class="fa fa-circle text-success"></i> 在线</a>
           </div>
-        </div>       
-        {% block nave %}
-        {% endblock %}
+        </div>
+        <ul class="sidebar-menu" data-widget="tree">
+          <li class="header">应用</li>
+          <li class="{% block achomepage %}{% endblock %} treeview">
+            <a href="#">
+              <i class="fa fa-link"></i>
+              <span>主数据</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="{% block acproduct %}{% endblock %} treeview-menu">
+              <li>
+                <a href="{% url 'products' %}">产品</a>
+              </li>
+              <li>
+                <a href="#">联系人</a>
+              </li><li>
+                <a href="#">公司</a>
+              </li><li>
+                <a href="#">单位</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <li>
+              <a href="#">
+                <i class="fa fa-wrench"></i>
+                <span>制造</span>
+              </a>
+              <ul class="{% block manufacture %}{% endblock %} treeview-menu">
+                <li>
+                  <a href="#">Link in level 2</a>
+                </li>
+                <li>
+                  <a href="#">Link in level 2</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">
+                <i class="fa fa-shopping-cart "></i>
+                <span>采购</span>
+              </a>
+            </li>
+            <li class="{% block acstore %}{% endblock %} treeview">
+              <a href="#">
+                <i class="fa fa-window-maximize "></i>
+                <span>仓库</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li>
+                  <a href="{% url 'store' %}">库存查询</a>
+                </li>
+                <li>
+                  <a href="{% url 'receiptP' %}">入库</a>
+                  <a href="#">出库</a>
+                  <a href="#">盘点</a>
+                  <a href="#">明细</a>
+                  <a href="#">待处理</a>
+                </li>
+              </ul>
+            </li>
+        </ul>
       </section>
     </aside>
     <div class="content-wrapper">
@@ -223,8 +289,7 @@
         {% endblock %}
       </section>
       <section class="content container-fluid">
-        {% block content %}
-        {% endblock %}
+        {% block content %} {% endblock %}
       </section>
     </div>
     <footer class="main-footer">
@@ -246,95 +311,93 @@
             <i class="fa fa-gears"></i>
           </a>
         </li>
-      <div class="tab-content">
-        <div class="tab-pane active" id="control-sidebar-home-tab">
-          <h3 class="control-sidebar-heading">Recent Activity</h3>
-          <ul class="control-sidebar-menu">
-            <li>
-              <a href="javascript:;">
-                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+        <div class="tab-content">
+          <div class="tab-pane active" id="control-sidebar-home-tab">
+            <h3 class="control-sidebar-heading">Recent Activity</h3>
+            <ul class="control-sidebar-menu">
+              <li>
+                <a href="javascript:;">
+                  <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
-                <div class="menu-info">
-                  <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
 
-                  <p>Will be 23 on April 24th</p>
-                </div>
-              </a>
-            </li>
-          </ul>
-          <h3 class="control-sidebar-heading">Tasks Progress</h3>
-          <ul class="control-sidebar-menu">
-            <li>
-              <a href="javascript:;">
-                <h4 class="control-sidebar-subheading">
-                  Custom Template Design
-                  <span class="pull-right-container">
-                    <span class="label label-danger pull-right">70%</span>
-                  </span>
-                </h4>
+                    <p>Will be 23 on April 24th</p>
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <h3 class="control-sidebar-heading">Tasks Progress</h3>
+            <ul class="control-sidebar-menu">
+              <li>
+                <a href="javascript:;">
+                  <h4 class="control-sidebar-subheading">
+                    Custom Template Design
+                    <span class="pull-right-container">
+                      <span class="label label-danger pull-right">70%</span>
+                    </span>
+                  </h4>
 
-                <div class="progress progress-xxs">
-                  <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                </div>
-              </a>
-            </li>
-          </ul>
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+          <div class="tab-pane" id="control-sidebar-settings-tab">
+            <form method="post">
+              <h3 class="control-sidebar-heading">General Settings</h3>
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  Report panel usage
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+                <p>
+                  Some information about this general settings option
+                </p>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-        <div class="tab-pane" id="control-sidebar-settings-tab">
-          <form method="post">
-            <h3 class="control-sidebar-heading">General Settings</h3>
-
-            <div class="form-group">
-              <label class="control-sidebar-subheading">
-                Report panel usage
-                <input type="checkbox" class="pull-right" checked>
-              </label>
-              <p>
-                Some information about this general settings option
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
     </aside>
     <div class="control-sidebar-bg"></div>
   </div>
   <script src="{%static 'bower_components/jquery/dist/jquery.min.js'%}"></script>
   <script src="{%static 'bower_components/bootstrap/dist/js/bootstrap.min.js'%}"></script>
-  <script src="{%static 'dist/js/adminlte.min.js'%}"></script>
-  {#完成ajax的SCRF认证#}
+  <script src="{%static 'dist/js/adminlte.min.js'%}"></script> {#完成ajax的SCRF认证#}
   <script>
     $(document).ready(function () {
       function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
             }
+          }
         }
         return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
+      }
+      var csrftoken = getCookie('csrftoken');
 
-    function csrfSafeMethod(method) {
+      function csrfSafeMethod(method) {
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
+      }
+      $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
         }
-    });
-    })</script>
-  {% block scripts %}{% endblock %}
+      });
+    })</script> {% block scripts %}{% endblock %}
 </body>
 
 </html>

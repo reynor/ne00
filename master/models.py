@@ -72,12 +72,29 @@ class Product(models.Model):
     # Product.objects.filter(bom__isnull=False)   #返回有BOM的产品
     # 取消反向相对关系  symmetrical=False, 只能在'self'时使用
     #bom = models.ManyToManyField('self', symmetrical=False)
+    note = models.TextField(null=True)
     tags = models.ManyToManyField(Tag)
     modified = models.DateTimeField(auto_now=True)
-    modiUser = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
+    modiUser = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.productName
+
+    def toJSON(self):  
+        fields = []  
+        for field in self._meta.fields:  
+            fields.append(field.name)  
+        
+        d = {}
+        for attr in fields:  
+            if isinstance(getattr(self, attr),datetime.datetime):  
+                d[attr] = getattr(self, attr).strftime('%Y-%m-%d %H:%M:%S')  
+            elif isinstance(getattr(self, attr),datetime.date):  
+                d[attr] = getattr(self, attr).strftime('%Y-%m-%d')  
+            else:  
+                d[attr] = getattr(self, attr)  
+        
+        return json.dumps(d)  
 
     def isRecursion(self):  # 防止引用自身发生递归  #实际为私有方法
         global s, resultList
@@ -128,13 +145,13 @@ class Product(models.Model):
 
 class BomItem(models.Model):
     # 主表反向查询 product.Bom.all()
-    parentProduct = models.ForeignKey(Product, related_name='Bom', on_delete=models.CASCADE)
+    parentProduct = models.ForeignKey(Product, related_name='Bom', null=True, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     unit = models.ForeignKey(partUnit, null=True, on_delete=models.SET_NULL)
     itemCount = models.FloatField()
     note = models.TextField(null=True)
     modified = models.DateTimeField(auto_now=True)
-    modiUser = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
+    modiUser = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.product.productName + ":" + str(self.itemCount)

@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     #'master',   #如此书写可正确运行，官网中按如下格式书写
     'master.apps.MasterConfig',
     'products.apps.ProductsConfig',
+    'projects.apps.ProjectsConfig',
+    'purchase.apps.PurchaseConfig',
+    'store.apps.StoreConfig',
     # dajax相关
     # 'dajaxice',
     # 'dajax',

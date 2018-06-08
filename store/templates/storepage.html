@@ -1,4 +1,6 @@
-{% extends "layout.html" %} {% block pageHeader %}{% load staticfiles %}
+{% extends "layout.html" %} 
+{% block acstore %}active{% endblock %}
+{% block pageHeader %}{% load staticfiles %}
 <h1>
   主页
   <small></small>
@@ -12,138 +14,38 @@
 </ol>
 {% endblock %}
 {% block content %}
-<!-- 模态框（Modal） -->
-<style>
-  .modal-dialog {
-    vertical-align: middle;
-    width: 90%;
-  }
 
-  .form-self {
-    width: 100% !important;
-  }
-</style>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-          &times;
-        </button>
-        <h4 class="modal-title" id="myModalLabel">
-          修改产品
-        </h4>
-      </div>
-      <div class="modal-body">
+<div class="modal-body">
 
-        <div style="padding: 10px 10px 10px;margin:10px 10px 10px;widows: 100px;">
-          <form class="form-inline row" role="form">
-            <div class="form-group col-sm-5" style="margin:10px 10px 10px 10px;">
-              <label class="form-label" for="editId">产品编号：</label>
-              <input type="text" id="editId" class="form-control form-self">
-            </div>
-            <div class="form-group col-sm-6" style="margin:10px 10px 10px 10px;">
-              <label for="editName">产品名称：</label>
-              <input type="text" id="editName" class="form-control form-self">
-            </div>
-            <div class="form-group col-sm-5" style="margin:10px 10px 10px 10px;">
-              <label for="editSpec">品牌：</label>
-              <input type="text" id="editSpec" class="form-control form-self">
-            </div>
-            <div class="form-group col-sm-6" style="margin:10px 10px 10px 10px;">
-              <label for="editSpec">型号：</label>
-              <input type="text" id="editSpec" class="form-control form-self">
-            </div>
-          </form>
-        </div>
-        <div class="box-body col-sm-12">
-          <table id="bomItems" class="table table-bordered table-striped dispalay" style="white-space: nowrap; ">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>产品编号</th>
-                <th>产品名称</th>
-                <th>型号</th>
-                <th>品牌</th>
-                <th>单位</th>
-                <th>数量</th>
-                <th>修改时间</th>
-              </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>ID</th>
-                <th>产品编号</th>
-                <th>产品名称</th>
-                <th>型号</th>
-                <th>品牌</th>
-                <th>单位</th>
-                <th>数量</th>
-                <th>修改时间</th>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+  <div style="padding: 10px 10px 10px;margin:10px 10px 10px;widows: 100px;">
+    <form class="form-inline row" role="form">
+      <div class="form-group" style="margin:10px 10px 10px 10px;">
+        <label class="form-label" for="searchId">产品编号：</label>
+        <input type="text" id="searchId" class="form-control form-self">
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-        </button>
-        <button type="button" class="btn btn-primary">
-          提交更改
-        </button>
+      <div class="form-group" style="margin:10px 10px 10px 10px;">
+        <label for="searchName">产品名称：</label>
+        <input type="text" id="searchName" class="form-control form-self">
       </div>
-    </div>
-    <!-- /.modal-content -->
+      <div class="form-group" style="margin:10px 10px 10px 10px;">
+        <label for="searchBrand">品牌：</label>
+        <input type="text" id="searchBrand" class="form-control form-self">
+      </div>
+      <div class="form-group" style="margin:10px 10px 10px 10px;">
+        <label for="searchSpec">型号：</label>
+        <input type="text" id="searchSpec" class="form-control form-self">
+      </div>
+      <div class="form-group" style="margin:10px 10px 10px 10px;">
+        <label for="searchNote">备注：</label>
+        <input type="text" id="searchNote" class="form-control form-self">
+      </div>   
+      <button type="button" id="searchButton" class="btn btn-primary">
+        搜索
+      </button>
+    </form>
   </div>
-  <!-- /.modal -->
-</div>
-<!-- 模态框结束 -->
-<form action="#" method="get" class="sidebar-form">
-    <div class="input-group">
-      <input type="text" name="q" class="form-control" placeholder="搜索...">
-      <span class="input-group-btn">
-        <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-          <i class="fa fa-search"></i>
-        </button>
-      </span>
-    </div>
-  </form>
-
-<form id="form1" role="form" action="{#% url 'search-submit' %#}" method="post">
-  {% csrf_token %}
-  <input name="search2" id="search2" type="search" placeholder="Search" />
-  <button type="button" id='sum2'>Submit</button>
-</form>
-<a href="{% url 'getdata' %}">快来点啊</a>
-<!--**************************************************************-->
-<p>请输入两个数字</p>
-
-<form action="/polls/add/" method="get">
-  a:
-  <input type="text" name="a" id='a'>
-  <br> b:
-  <input type="text" name="b" id='b'>
-  <br>
-
-  <p>result:
-    <span id='result'></span>
-  </p>
-
-  <!--input type="submit" value="提交"-->
-  <button type="button" id='sum'>提交</button>
-</form>
-
-<!--**********************************************************-->
-<div class="box">
-  <div class="box-header">
-    <h3 class="box-title">产品列表</h3>
-  </div>
-  <!-- /.box-header -->
-  <div class="box-body">
-    <table id="example1" class="table table-bordered table-striped dispalay" style="white-space: nowrap; ">
+  <div class="box-body col-sm-12">
+    <table id="storeItems" class="table table-bordered table-striped dispalay" style="white-space: nowrap; ">
       <thead>
         <tr>
           <th>ID</th>
@@ -151,6 +53,8 @@
           <th>产品名称</th>
           <th>型号</th>
           <th>品牌</th>
+          <th>单位</th>
+          <th>数量</th>
           <th>修改时间</th>
         </tr>
       </thead>
@@ -164,12 +68,13 @@
           <th>产品名称</th>
           <th>型号</th>
           <th>品牌</th>
+          <th>单位</th>
+          <th>数量</th>
           <th>修改时间</th>
         </tr>
       </tfoot>
     </table>
   </div>
-  <!-- /.box-body -->
 </div>
 
 {% endblock %} {% block scripts %}
@@ -207,10 +112,10 @@
 <script>    
   $(document).ready(function () {
     //模态框 点击空白处窗口不关闭
-    $('#myModal').modal({ backdrop: 'static', show: false });
+    //$('#myModal').modal({ backdrop: 'static', show: false });
 
     //实时内容搜索
-    $("#search2").on('input', function () {
+    /*$("#search2").on('input', function () {
       var a = $("#search2").val()
       $.ajax({
         //type: "GET",
@@ -223,7 +128,7 @@
           $('#result').html(ret)
         },
       })
-    })
+    });*/
     /*测试项，工作正常
     $(document).ready(function () {
       $("#sum").click(function () {
@@ -244,7 +149,7 @@
       })
   })*/
 
-    $('#example1').DataTable({
+    $('#storeItems').DataTable({
       "sScrollX": "100%",
       "sScrollXInner": "100%",
       "bScrollCollapse": true,
@@ -257,17 +162,25 @@
         { extend: 'print', text: '打印' }
       ],
       "autoWidth": true,
-      "ajax": "{% url 'getdata' %}",
       columns: [
         {
           "data": "id",
           "bVisible": false
         },
-        { "data": "productId" },
-        { "data": "productName" },
-        { "data": "specification" },
-        { "data": "productBrand" },
-        { "data": "modified" }
+        { "data": "productId",
+        "defaultContent": "" },
+        { "data": "productName",
+        "defaultContent": "" },
+        { "data": "specification",
+        "defaultContent": "" },
+        { "data": "productBrand",
+        "defaultContent": "" },
+        { "data": "itemCount",
+        "defaultContent": "" },
+        { "data": "unit",
+        "defaultContent": "" },
+        { "data": "modified",
+        "defaultContent": "" },
       ],
       "bInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
       "language": {
@@ -288,68 +201,56 @@
       },
     });
 
-
-    $('#bomItems').DataTable({
-      "sScrollX": "100%",
-      "sScrollXInner": "100%",
-      "bScrollCollapse": true,
-      "autoWidth": true,
-      select: true,
-      dom: 'Bfrtip',
-      buttons: [
-        { extend: 'copy', text: '复制', copyTitle: '表格已复制', success: "已复制 %d 行到剪贴板" },
-        'excel',
-        { extend: 'print', text: '打印' }
-      ],
-      "autoWidth": true,
-      columns: [
-        {
-          "data": "id",
-          "bVisible": false,
-          "defaultContent": ""
-        },
-        {
-          "data": "productId",
-          "defaultContent": ""
-        },
-        {
-          "data": "productName",
-          "defaultContent": ""
-        },
-        {
-          "data": "specification",
-          "defaultContent": ""
-        },
-        {
-          "data": "productBrand",
-          "defaultContent": ""
-        },
-        { "data": "unit" },
-        { "data": "itemCount" },
-        {
-          "data": "modified",
-          "defaultContent": ""
-        }
-      ],
-      "bInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-      "language": {
-        "infoEmpty": "没有记录可以显示",
-        "info": "共_TOTAL_条记录",
-        "sZeroRecords": "没有匹配结果",
-        "loadingRecords": "数据正在加载中......",
-        "processing": "正在处理中......",
-        "search": "结果中搜索:",
-        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-        "oPaginate": {
-          "sFirst": "首页",
-          "sPrevious": "上页",
-          "sNext": "下页",
-          "sLast": "末页"
-        },
-        "sEmptyTable": "未找到相关数据",
-      },
-    });
-
+    $("#searchButton").click(function () {
+      var searchId = $("#searchId").val()
+      var searchName = $("#searchName").val()
+      var searchBrand = $("#searchBrand").val()
+      var searchSpec = $("#searchSpec").val()
+      var searchNote = $("#searchNote").val()
+      
+      $.ajax({
+          type: "POST",
+          url: "{% url 'searchP' %}",
+          data: {
+              'searchId': searchId,
+              'searchName': searchName,
+              'searchBrand': searchBrand,
+              'searchSpec': searchSpec,
+              'searchNote': searchNote,
+          },
+          success: function (ret) {
+            console.log(ret)
+            var subtable = $('#storeItems').DataTable();
+            subtable.clear().draw();
+            console.log(ret);
+            //subtable.ajax.url(ret).load();
+            jsdata = $.parseJSON(ret);
+            //console.log(jsdata[0].productId);
+            var b = jsdata.length;
+            var i;
+            for (i = 0; i < b; i++) {
+              console.log(jsdata[i].productId + " : " + jsdata[i].productName);
+              subtable.row.add({
+                "id": jsdata[i].id,
+                "productId": jsdata[i].productId,
+                "productName": jsdata[i].productName,
+                "specification": jsdata[i].specification,
+                "productBrand": jsdata[i].productBrand,
+               // "itemCount": jsdata[i].itemCount,
+                //"unit": jsdata[i].unit,
+                "modified": jsdata[i].modified,
+              }).draw();
+              //console.log(table.rows().data()[1][1]);
+              //subtable.row.data.//['jsdata[i].productId','jsdata[i].productName']).draw();
+            }
+            subtable.order([1, 'asc']).draw();
+          },
+          error: function () {
+            console.log('error');
+          }
+      })
+  })
+/*
     var table = $('#example1').DataTable();
 
     $('#example1').on('dblclick', 'td', function () {
@@ -362,7 +263,6 @@
         },
         //dataType:'json',
         success: function (ret) {
-          console.log(ret)
           $('#myModal').modal({ show: true });
           var subtable = $('#bomItems').DataTable();
           subtable.clear().draw();
@@ -393,7 +293,7 @@
           console.log('error');
         }
 
-      })
+      })*/
 
       //$('#myModal').modal({ show: true });
       //table.cell(this).data("1").draw();
@@ -402,6 +302,5 @@
       inst.open();
       document.getElementById("modi-content").innerHTML = '<table align="center"><tr><td>原数据：</td><td>' + table.cell( this ).data() + '</td></tr><tr><td>新数据：</td><td><input type="text" style ="width:300px;" value='+ table.cell( this ).data() +' /></td></tr></table>';
   */
-    });
   })
 </script> {% endblock %}

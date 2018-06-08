@@ -1,4 +1,6 @@
-{% extends "layout.html" %} {% block pageHeader %}{% load staticfiles %}
+{% extends "layout.html" %}{% block achomepage %}active{% endblock %} 
+{% block pageHeader %}{% load staticfiles %}
+
 <h1>
   主页
   <small></small>
@@ -10,66 +12,8 @@
   </li>
   <li class="active"></li>
 </ol>
-{% endblock %} {% block nave %}
-<ul class="sidebar-menu" data-widget="tree">
-  <li class="header">应用</li>
-  <li class="treeview">
-    <a href="#">
-      <i class="fa fa-link"></i>
-      <span>主数据</span>
-      <span class="pull-right-container">
-        <i class="fa fa-angle-left pull-right"></i>
-      </span>
-    </a>
-    <ul class="treeview-menu">
-      <li>
-        <a href="{% url 'products' %}">产品</a>
-      </li>
-      <li>
-        <a href="#">联系人</a>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <li>
-      <a href="#">
-        <i class="fa fa-wrench"></i>
-        <span>制造</span>
-      </a>
-      <ul class="treeview-menu">
-        <li>
-          <a href="#">Link in level 2</a>
-        </li>
-        <li>
-          <a href="#">Link in level 2</a>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <a href="#">
-        <i class="fa fa-shopping-cart "></i>
-        <span>采购</span>
-      </a>
-    </li>
-    <li class="treeview">
-      <a href="#">
-        <i class="fa fa-window-maximize "></i>
-        <span>库存</span>
-        <span class="pull-right-container">
-          <i class="fa fa-angle-left pull-right"></i>
-        </span>
-      </a>
-      <ul class="treeview-menu">
-        <li>
-          <a href="#">Link in level 2</a>
-        </li>
-        <li>
-          <a href="#">Link in level 2</a>
-        </li>
-      </ul>
-    </li>
-</ul>
-{% endblock %} {% block content %}
+{% endblock %}
+{% block content %}
 <!-- 模态框（Modal） -->
 <style>
   .modal-dialog {

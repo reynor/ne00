@@ -27,5 +27,8 @@ urlpatterns = [
     #path('login/',master_view.login,name='login'),
     path('home/',include('master.urls')),
     path('maindata/',include('products.urls')),
+    path('projects/',include('projects.urls')),
+    path('purchase/',include('purchase.urls')),
+    path('store/',include('store.urls')),
     path('F95T/', admin.site.urls),
 ]
