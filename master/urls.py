@@ -26,4 +26,8 @@ urlpatterns = [
         name='logout'),
     path('getdata/',views.getProducts,name='getdata'),
     path('getBom/',views.getBom,name='getBom'),
+    path('unit/',views.unit,name='unit'),
+    path('getunit/',views.getunit,name='getunit'),
+    path('addunit/',views.addunit,name='addunit'),
+    path('delunit/',views.delunit,name='delunit'),
 ]

@@ -1,0 +1,245 @@
+{% extends "layout.html" %}{% block achomepage %}active{% endblock %} {% block pageHeader %}{% load staticfiles %}
+
+<h1>
+  主页
+  <small></small>
+</h1>
+<ol class="breadcrumb">
+  <li>
+    <a href="#">
+      <i class="fa fa-dashboard"></i> 主页</a>
+  </li>
+  <li class="active">单位</li>
+</ol>
+{% endblock %} {% block content %}
+<!-- 模态框（Modal） -->
+<style>
+  .modal-dialog {
+    vertical-align: middle;
+    width: 90%;
+  }
+
+  .form-self {
+    width: 100% !important;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+</style>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          编辑单位
+        </h4>
+      </div>
+      <div class="modal-body">
+
+        <div style="padding: 10px 10px 10px;margin:10px 10px 10px;widows: 100px;">
+          <form class="form-inline row" role="form">
+            <div class="form-group col-sm-5" style="margin:10px 10px 10px 10px;">
+              <label class="form-label" for="editName">单位名称：</label>
+              <input type="text" id="editName" class="form-control form-self">
+            </div>
+            <div class="form-group col-sm-6" style="margin:10px 10px 10px 10px;">
+              <label for="editRate">与基准单位进率：</label>
+              <input type="number" id="editRate" class="form-control form-self">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+        </button>
+        <button type="button" id="editButton" class="btn btn-primary">
+          确定
+        </button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal -->
+</div>
+<!-- 模态框结束 -->
+<div class="box">
+  <div class="box-header">
+    <h3 class="box-title">单位列表</h3>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <table id="example1" class="table table-bordered table-striped dispalay" style="white-space: nowrap; ">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>单位名称</th>
+          <th>与基准单位进率</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>ID</th>
+          <th>单位名称</th>
+          <th>与基准单位进率</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <!-- /.box-body -->
+</div>
+{% endblock %} {% block scripts %}
+<!-- DataTables -->
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css'%}">
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/jquery.dataTables.css'%}">
+
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/buttons.dataTables.min.css'%}">
+<!-- <link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/buttons.bootstrap.min.css"> -->
+
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/css/editor.dataTables.min.css'%}">
+<!-- <link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/demo.css">
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/shCore.css"> -->
+<!-- DataTables -->
+<script src="{%static 'bower_components/datatables.net/js/jquery.dataTables.min.js'%}"></script>
+<script src="{%static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js'%}"></script>
+<script src="{%static 'bower_components/datatables.net/js/dataTables.select.min.js'%}"></script>
+
+<script src="{%static 'bower_components/datatables.net/js/buttons.colVis.min.js'%}"></script>
+<script src="{%static 'bower_components/datatables.net/js/buttons.html5.min.js'%}"></script>
+<script src="{%static 'bower_components/datatables.net/js/buttons.print.min.js'%}"></script>
+<script src="{%static 'bower_components/datatables.net/js/jszip.min.js'%}"></script>
+
+
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/js/dataTables.editor.min.js'%}">
+<!-- <link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/demo.js'%}">
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/editor-demo.js'%}"> -->
+<!-- SlimScroll -->
+<script src="{%static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js'%}"></script>
+<!-- FastClick -->
+<script src="{%static 'bower_components/fastclick/lib/fastclick.js'%}"></script>
+
+<script type="text/javascript" charset="utf8" src="{%static 'bower_components/datatables.net/js/dataTables.buttons.min.js'%}"></script>
+
+<script>
+  var chid;
+    $(document).ready(function () {
+      //模态框 点击空白处窗口不关闭
+      $('#myModal').modal({ backdrop: 'static', show: false });
+
+      $('#example1').DataTable({
+        "sScrollX": "100%",
+        "sScrollXInner": "100%",
+        "bScrollCollapse": true,
+        "autoWidth": true,
+        select: true,
+        dom: 'Bfrtip',
+        buttons: [
+          {
+            text: '添加单位',
+            action: function (e, dt, node, config) {
+              $('#editButton').text('添加'); //确定
+              chid = 0;
+              $('#myModal').modal({ show: true });
+            }
+          }, {
+            text: '删除单位',
+            action: function (e, dt, node, config) {
+              var st = this.rows('.selected').data();
+              var delunit = new Array();
+              var j = 0;
+              while (j < st.length) {
+                delunit.push(st[j].id);
+                j++;
+              };
+              //console.log(JSON.stringify(delunit));
+              $.ajax({
+                type: "POST",
+                url: "{% url 'delunit' %}",
+                data: {
+                  'ids': JSON.stringify(delunit),
+                },
+                success: function (ret) {
+                  console.log(ret);
+                  table.ajax.reload();
+                  alert("删除成功");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) { },
+              });
+            }
+          },
+          'excel',
+        ],
+        "autoWidth": true,
+        "ajax": "{% url 'getunit' %}",
+        columns: [
+          {
+            "data": "id",
+            "bVisible": false
+          },
+          { "data": "dimension" },
+          { "data": "conversion" },
+        ],
+        "bInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+        "language": {
+          "infoEmpty": "没有记录可以显示",
+          "info": "共_TOTAL_条记录",
+          "sZeroRecords": "没有匹配结果",
+          "loadingRecords": "数据正在加载中......",
+          "processing": "正在处理中......",
+          "search": "结果中搜索:",
+          "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+          "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "上页",
+            "sNext": "下页",
+            "sLast": "末页"
+          },
+          "sEmptyTable": "未找到相关数据",
+        },
+      });
+
+      var table = $('#example1').DataTable();
+
+      $('#editButton').click(function () {
+        var reg = /^(-?\d+)(\.\d+)?$/;
+        var value = document.getElementById("editRate").value;
+        if (reg.test(value) == true) {
+          $.ajax({
+            type: "POST",
+            url: "{% url 'addunit' %}",
+            data: {
+              'edid':chid,
+              'dimension': $('#editName').val(),
+              'conversion': $('#editRate').val(),
+            },
+            success: function (ret) {
+              console.log(ret);
+              table.ajax.reload();
+              $('#myModal').modal('hide');
+            },
+          });
+        } else {
+          alert("进率请输入数字");
+        }
+      });
+
+      $('#example1').on('dblclick', 'td', function () {
+        $('#editButton').text('修改');
+        chid = table.row(this).data().id;
+        $('#editName').val(table.row(this).data().dimension);
+        $('#editRate').val(table.row(this).data().conversion);
+        $('#myModal').modal({ show: true });
+      })
+  })
+</script> {% endblock %}
