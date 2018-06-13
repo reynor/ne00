@@ -8,6 +8,7 @@ from django.template import RequestContext
 from .forms import AccountForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # ajax
 import json
+from django.db.models import Q
 
 from .models import Staff, Product, partUnit
 
@@ -43,7 +44,7 @@ def getProducts(request):
     products = list(products)
     for a in products:
         a['modified'] = a['modified'].strftime("%Y-%m-%d %H-%M-%S")
-        # a['id']=str(a['id'])
+        a['1'] = 0
     js = '{"data":'+json.dumps(products)+"}"
     return HttpResponse(js)
     '''实时数据反馈
@@ -69,6 +70,36 @@ def getBom(request):
     js = json.dumps(c)
     return HttpResponse(js)
     # return HttpResponse(product.__str__())
+
+
+@login_required
+def getFullBom(request):
+    partId = request.POST['partid']
+    product = Product.objects.get(pk=partId)
+    a = product.isErrorBom()
+    if len(a) == 0:
+        products = product.getFullParts()
+        e = []
+        for b in products:
+            # b=a.parentProduct
+            c = b.product
+            b.modified = b.modified.strftime("%Y-%m-%d %H-%M-%S")
+            d = {'id': c.id, 'productId': c.productId, 'productName': c.productName, 'productBrand': c.productBrand,
+                'specification': c.specification, 'unit': b.unit, 'itemCount': b.itemCount, 'modified': b.modified}
+            e.append(d)
+            # a['id']=str(a['id'])
+        e.sort(key=lambda k: (k.get('id', 0)))
+        i=0
+        while(i<len(e)-1):
+            if(e[i]['id']==e[i+1]['id']):
+                e[i]['itemCount']=e[i]['itemCount']+e[i+1]['itemCount']
+                e.pop(i+1)
+            else:
+                i=i+1
+        js = json.dumps(e)
+        return HttpResponse(js)
+    else:
+        return HttpResponse(a)
 
 
 def login(request):
@@ -100,6 +131,8 @@ def unit(request):
 def getunit(request):
     units = partUnit.objects.values()
     products = list(units)
+    for a in products:
+        a['1'] = 0  # 复选框所用属性
     js = '{"data":'+json.dumps(products)+"}"
     return HttpResponse(js)
 
@@ -124,13 +157,19 @@ def addunit(request):
 @login_required
 def delunit(request):
     delid = json.loads(request.POST['ids'])
-    sql = "partUnit.objects"
+    print(delid)
+    sql = "partUnit.objects.filter("
 
+    i = True
     for a in delid:
-        sql = sql + ".filter(id='" + str(a) + "')"
-    sql = sql + '.delete()'
+        if i == True:
+            sql = sql + "Q(id='" + str(a) + "')"
+            i = False
+        else:
+            sql = sql + "|Q(id='" + str(a) + "')"
+    sql = sql + ').delete()'
     try:
         exec(sql)
-        return HttpResponse('succdss')
+        return HttpResponse(sql)
     except:
         print('faile')

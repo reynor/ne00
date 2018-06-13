@@ -1,7 +1,7 @@
 {% extends "layout.html" %}{% block achomepage %}active{% endblock %} {% block pageHeader %}{% load staticfiles %}
 
 <h1>
-  主页
+  单位管理
   <small></small>
 </h1>
 <ol class="breadcrumb">
@@ -72,15 +72,13 @@
 </div>
 <!-- 模态框结束 -->
 <div class="box">
-  <div class="box-header">
-    <h3 class="box-title">单位列表</h3>
-  </div>
   <!-- /.box-header -->
   <div class="box-body">
     <table id="example1" class="table table-bordered table-striped dispalay" style="white-space: nowrap; ">
       <thead>
         <tr>
           <th>ID</th>
+          <th></th>
           <th>单位名称</th>
           <th>与基准单位进率</th>
         </tr>
@@ -91,6 +89,7 @@
       <tfoot>
         <tr>
           <th>ID</th>
+          <th></th>
           <th>单位名称</th>
           <th>与基准单位进率</th>
         </tr>
@@ -105,9 +104,8 @@
 <link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/jquery.dataTables.css'%}">
 
 <link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/buttons.dataTables.min.css'%}">
-<!-- <link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/buttons.bootstrap.min.css"> -->
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/buttons.bootstrap.min.css'%}">
 
-<link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/css/editor.dataTables.min.css'%}">
 <!-- <link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/demo.css">
 <link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/shCore.css"> -->
 <!-- DataTables -->
@@ -118,12 +116,12 @@
 <script src="{%static 'bower_components/datatables.net/js/buttons.colVis.min.js'%}"></script>
 <script src="{%static 'bower_components/datatables.net/js/buttons.html5.min.js'%}"></script>
 <script src="{%static 'bower_components/datatables.net/js/buttons.print.min.js'%}"></script>
-<script src="{%static 'bower_components/datatables.net/js/jszip.min.js'%}"></script>
-
-
+<script src="{%static 'bower_components/datatables.net/js/dataTables.buttons.min.js'%}"></script>
+<script src="{%static 'bower_components/datatables.net/js/buttons.bootstrap.min.js'%}"></script>
+<script src="{%static 'bower_components/datatables.net/js/jszip.min.js'%}"></script> {% comment %}
 <link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/js/dataTables.editor.min.js'%}">
 <!-- <link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/demo.js'%}">
-<link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/editor-demo.js'%}"> -->
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net/editor/editor-demo.js'%}"> -->{% endcomment %}
 <!-- SlimScroll -->
 <script src="{%static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js'%}"></script>
 <!-- FastClick -->
@@ -131,37 +129,44 @@
 
 <script type="text/javascript" charset="utf8" src="{%static 'bower_components/datatables.net/js/dataTables.buttons.min.js'%}"></script>
 
+<link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/dataTables.checkboxes.css'%}">
+<script src="{%static 'bower_components/datatables.net/js/dataTables.checkboxes.min.js'%}"></script>
+
 <script>
   var chid;
-    $(document).ready(function () {
-      //模态框 点击空白处窗口不关闭
-      $('#myModal').modal({ backdrop: 'static', show: false });
+  $(document).ready(function () {
+    //模态框 点击空白处窗口不关闭
+    $('#myModal').modal({ backdrop: 'static', show: false });
 
-      $('#example1').DataTable({
-        "sScrollX": "100%",
-        "sScrollXInner": "100%",
-        "bScrollCollapse": true,
-        "autoWidth": true,
-        select: true,
-        dom: 'Bfrtip',
-        buttons: [
-          {
-            text: '添加单位',
-            action: function (e, dt, node, config) {
-              $('#editButton').text('添加'); //确定
-              chid = 0;
-              $('#myModal').modal({ show: true });
-            }
-          }, {
-            text: '删除单位',
-            action: function (e, dt, node, config) {
-              var st = this.rows('.selected').data();
-              var delunit = new Array();
-              var j = 0;
-              while (j < st.length) {
-                delunit.push(st[j].id);
-                j++;
-              };
+    $('#example1').DataTable({
+      "sScrollX": "100%",
+      "sScrollXInner": "100%",
+      "bScrollCollapse": true,
+      "autoWidth": true,
+      select: true,
+      dom: 'Bfrtip',
+      buttons: [
+        {
+          text: '添加单位',
+          action: function (e, dt, node, config) {
+            $('#editButton').text('添加'); //确定
+            $('#editName').val('');
+            $('#editRate').val('');
+            chid = 0;
+            $('#myModal').modal({ show: true });
+          }
+        }, {
+          text: '删除单位',
+          action: function (e, dt, node, config) {
+            var st = this.rows('.selected').data();
+            if(st.length){console.log(st.length);
+            var delunit = new Array();
+            var j = 0;
+            while (j < st.length) {
+              delunit.push(st[j].id);
+              j++;
+            };
+            if (confirm("是否确认删除")) {
               //console.log(JSON.stringify(delunit));
               $.ajax({
                 type: "POST",
@@ -174,72 +179,91 @@
                   table.ajax.reload();
                   alert("删除成功");
                 },
-                error: function (XMLHttpRequest, textStatus, errorThrown) { },
               });
-            }
+            }}
+          }
+        }, {
+          extend: 'excel',
+          text: '导出excel',
+          filename: '单位表',
+          exportOptions: {
+            columns: ':visible',
           },
-          'excel',
-        ],
-        "autoWidth": true,
-        "ajax": "{% url 'getunit' %}",
-        columns: [
-          {
-            "data": "id",
-            "bVisible": false
-          },
-          { "data": "dimension" },
-          { "data": "conversion" },
-        ],
-        "bInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-        "language": {
-          "infoEmpty": "没有记录可以显示",
-          "info": "共_TOTAL_条记录",
-          "sZeroRecords": "没有匹配结果",
-          "loadingRecords": "数据正在加载中......",
-          "processing": "正在处理中......",
-          "search": "结果中搜索:",
-          "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-          "oPaginate": {
-            "sFirst": "首页",
-            "sPrevious": "上页",
-            "sNext": "下页",
-            "sLast": "末页"
-          },
-          "sEmptyTable": "未找到相关数据",
+          /*customize: function (xlsx) {
+            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+            $('row c[r^="B"]', sheet).attr('s', '2'); //  B列改为粗体
+          }*/
         },
-      });
+      ],
+      "autoWidth": true,
+      "ajax": "{% url 'getunit' %}",
+      columns: [
+        {
+          "data": "id",
+          "bVisible": false
+        },
+        {
+          orderable: false,
+          'checkboxes': {
+             'selectRow': true
+          }
+       },
+        { "data": "dimension" },
+        { "data": "conversion" },
+      ],'select': {
+        'style': 'multi'
+     },
+      "bInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+      "language": {
+        "infoEmpty": "没有记录可以显示",
+        "info": "共_TOTAL_条记录",
+        "sZeroRecords": "没有匹配结果",
+        "loadingRecords": "数据正在加载中......",
+        "processing": "正在处理中......",
+        "search": "结果中搜索:",
+        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+        "oPaginate": {
+          "sFirst": "首页",
+          "sPrevious": "上页",
+          "sNext": "下页",
+          "sLast": "末页"
+        },
+        "sEmptyTable": "未找到相关数据",
+      },
+    });
 
-      var table = $('#example1').DataTable();
+    var table = $('#example1').DataTable();
+    table.order([2, 'asc']).draw();
 
-      $('#editButton').click(function () {
-        var reg = /^(-?\d+)(\.\d+)?$/;
-        var value = document.getElementById("editRate").value;
-        if (reg.test(value) == true) {
-          $.ajax({
-            type: "POST",
-            url: "{% url 'addunit' %}",
-            data: {
-              'edid':chid,
-              'dimension': $('#editName').val(),
-              'conversion': $('#editRate').val(),
-            },
-            success: function (ret) {
-              console.log(ret);
-              table.ajax.reload();
-              $('#myModal').modal('hide');
-            },
-          });
-        } else {
-          alert("进率请输入数字");
-        }
-      });
+    $('#editButton').click(function () {
+      var reg = /^(-?\d+)(\.\d+)?$/;
+      var value = document.getElementById("editRate").value;
+      if (reg.test(value) == true) {
+        $.ajax({
+          type: "POST",
+          url: "{% url 'addunit' %}",
+          data: {
+            'edid': chid,
+            'dimension': $('#editName').val(),
+            'conversion': $('#editRate').val(),
+          },
+          success: function (ret) {
+            console.log(ret);
+            table.ajax.reload();
+            $('#myModal').modal('hide');
+          },
+        });
+      } else {
+        alert("进率请输入数字");
+      }
+    });
 
-      $('#example1').on('dblclick', 'td', function () {
-        $('#editButton').text('修改');
-        chid = table.row(this).data().id;
-        $('#editName').val(table.row(this).data().dimension);
-        $('#editRate').val(table.row(this).data().conversion);
-        $('#myModal').modal({ show: true });
-      })
+    $('#example1').on('dblclick', 'td', function () {
+      $('#editButton').text('修改');
+      chid = table.row(this).data().id;
+      $('#editName').val(table.row(this).data().dimension);
+      $('#editRate').val(table.row(this).data().conversion);
+      $('#myModal').modal({ show: true });
+    })
   })
 </script> {% endblock %}

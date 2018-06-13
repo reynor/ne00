@@ -9,6 +9,7 @@ from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger #ajax
 from master.models import Staff, Product, partUnit, Tag, Company
 import json
+from django.forms.models import model_to_dict
 
 #from .models import Staff, Product
 
@@ -55,6 +56,8 @@ def searchProduct(request):
 
     js = '['
     for a in products:
+        #a = model_to_dict(a)
+        #a['1'] = 0
         js= js + str(a.toJSON()) + ','
     js = js[:-1]    #去掉最后一个字符
     js = js + ']'

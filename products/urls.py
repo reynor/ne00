@@ -8,4 +8,5 @@ from datetime import datetime
 
 urlpatterns = [
     path('products/',views.products,name='products'),
+    path('addProduct/',views.addProduct,name='addProduct'),
 ]
