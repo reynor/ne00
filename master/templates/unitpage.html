@@ -1,4 +1,7 @@
-{% extends "layout.html" %}{% block achomepage %}active{% endblock %} {% block pageHeader %}{% load staticfiles %}
+{% extends "layout.html" %}
+{% block pagetitle %}单位管理{% endblock %}
+{% block achomepage %}active{% endblock %} 
+{% block pageHeader %}{% load staticfiles %}
 
 <h1>
   单位管理
@@ -145,7 +148,8 @@
       "autoWidth": true,
       select: true,
       dom: 'Bfrtip',
-      buttons: [
+      buttons: [      
+      {% if perms.master.add_partUnit %}
         {
           text: '添加单位',
           action: function (e, dt, node, config) {
@@ -155,7 +159,10 @@
             chid = 0;
             $('#myModal').modal({ show: true });
           }
-        }, {
+        }, 
+        {% endif %}        
+        {% if perms.master.delete_partUnit %}
+        {
           text: '删除单位',
           action: function (e, dt, node, config) {
             var st = this.rows('.selected').data();
@@ -182,7 +189,9 @@
               });
             }}
           }
-        }, {
+        },
+        {% endif %}
+        {
           extend: 'excel',
           text: '导出excel',
           filename: '单位表',
@@ -257,7 +266,8 @@
         alert("进率请输入数字");
       }
     });
-
+    
+    {% if perms.master.change_partUnit %}
     $('#example1').on('dblclick', 'td', function () {
       $('#editButton').text('修改');
       chid = table.row(this).data().id;
@@ -265,5 +275,6 @@
       $('#editRate').val(table.row(this).data().conversion);
       $('#myModal').modal({ show: true });
     })
+    {% endif %}
   })
 </script> {% endblock %}

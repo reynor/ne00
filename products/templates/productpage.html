@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block pageHeader %}{% load staticfiles %}
+{% extends "layout.html" %} {% block pagetitle %}产品管理{% endblock %} {% block pageHeader %}{% load staticfiles %}
 <h1>
   产品管理
   <small></small>
@@ -30,7 +30,7 @@
           &times;
         </button>
         <h4 class="modal-title" id="myModalLabel">
-          修改产品
+          编辑产品
         </h4>
       </div>
       <div class="modal-body">
@@ -94,9 +94,11 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
         </button>
+        {% if perms.master.change_product %}
         <button type="button" id="editButton" class="btn btn-primary">
           提交更改
         </button>
+        {% endif %}
       </div>
     </div>
     <!-- /.modal-content -->
@@ -277,7 +279,10 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-      <input type="file" id="file1" name="file1" style=" display: none" accept=".XLSX" />
+      <form id="infoLogoForm" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <input type="file" id="file1" name="file1" style=" display: none" accept=".XLSX" />
+      </form>
       <table id="example1" class="table table-bordered table-striped dispalay" style="white-space: nowrap; ">
         <thead>
           <tr>
@@ -349,6 +354,7 @@
 
 <link rel="stylesheet" href="{%static 'bower_components/datatables.net-bs/css/dataTables.checkboxes.css'%}">
 <script src="{%static 'bower_components/datatables.net/js/dataTables.checkboxes.min.js'%}"></script>
+<!--script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.0/xlsx.full.min.js"></script!-->
 
 <script>    
   var maid;
@@ -381,118 +387,181 @@
       })
     })*/
 
-    $('#example1').DataTable({
-      "sScrollX": "100%",
-      "sScrollXInner": "100%",
-      "bScrollCollapse": true,
-      "autoWidth": true,
-      select: true,
-      select: {
-        'style': 'multi'
-      },
-      dom: 'Bfrtip',
-      buttons: [
-        {
-          text: '添加产品',
-          action: function (e, dt, node, config) {
-            maid = 0;
-            $('#editButton').text('添加'); //确定
-            $('#editId').val('');
-            $('#editName').val('');
-            $('#editBrand').val('');
-            $('#editSpec').val('');
-            $('#editNote').val('');
-            $('#bomItems').DataTable().clear().draw();
-            $('#myModal').modal({ show: true });
-            $('#bomItems').DataTable().order([1, 'asc']).draw();
+    $("#file1").on("change", function () {
+      var form_data = new FormData();
+      var file_info = $('#file1')[0].files[0];
+      form_data.append('file', file_info);
+      //if(file_info==undefined)暂且不许要判断是否有附件
+      //alert('你没有选择任何文件');
+      //return false
+      //}
+
+      // 提交ajax的请求
+      $.ajax({
+        url: "{% url 'addProductList' %}",
+        type: 'POST',
+        data: form_data,
+        processData: false,  // tell jquery not to process the data
+        contentType: false, // tell jquery not to set contentType
+        success: function (callback) {
+          console.log(callback);
+          //console.log(order_id)
+        }
+      }); // end ajax
+    });
+
+    /*var uploading = false; 
+    $("#file1").on("change", function () {
+      if (uploading) {
+        console.log("文件正在上传中，请稍候");
+        return false;
+      };
+      $.ajax({
+        url: "{% url 'addProductList' %}",
+        type: 'POST',
+        cache: false,
+        data: new FormData($('#infoLogoForm')[0]),
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        beforeSend: function () {
+          uploading = true;
+          console.log($('#infoLogoForm')[0]);
+        },
+        success: function (ret) {
+          console.log('上传成功');
+          //console.log(ret);
+          if (data.code == 1) {
+            console.log('success');
+            $("#logo").attr("src", data.msg);
+          } else {
+            showError(data.msg);
           }
-        }, {
-          text: '删除产品',
-          action: function (e, dt, node, config) {
-            var st = this.rows('.selected').data();
-            if (st.length) {
-              console.log(st.length);
-              var delunit = new Array();
-              var j = 0;
-              while (j < st.length) {
-                delunit.push(st[j].id);
-                j++;
-              };
-              if (confirm("是否确认删除")) {
-                //console.log(JSON.stringify(delunit));
-                $.ajax({
-                  type: "POST",
-                  url: "{% url 'delunit' %}",
-                  data: {
-                    'ids': JSON.stringify(delunit),
-                  },
-                  success: function (ret) {
-                    console.log(ret);
-                    table.ajax.reload();
-                    alert("删除成功");
-                  },
-                });
+          uploading = false;
+        }
+      });
+    });*/
+
+    $('#example1').DataTable({
+        "sScrollX": "100%",
+        "sScrollXInner": "100%",
+        "bScrollCollapse": true,
+        "autoWidth": true,
+        select: true,
+        select: {
+          'style': 'multi'
+        },
+        dom: 'Bfrtip',
+        buttons: [
+          {% if perms.master.add_product %}
+          {
+            text: '添加产品',
+            action: function (e, dt, node, config) {
+              maid = 0;
+              $('#editButton').text('添加'); //确定
+              $('#editId').val('');
+              $('#editName').val('');
+              $('#editBrand').val('');
+              $('#editSpec').val('');
+              $('#editNote').val('');
+              $('#bomItems').DataTable().clear().draw();
+              $('#myModal').modal({ show: true });
+              $('#bomItems').DataTable().order([1, 'asc']).draw();
+            }
+          },{
+            text: '从excel导入',
+            filename: '单位表',
+            exportOptions: {
+              columns: ':visible',
+            },
+            action: function (e, dt, node, config) {
+              $('#file1').val('');
+              $('#file1').click();
+              console.log($('#file1'));
+            },
+          },
+          {% endif %}
+          {% if perms.master.delete_product %}
+          {
+            text: '删除产品',
+            action: function (e, dt, node, config) {
+              var st = this.rows('.selected').data();
+              if (st.length) {
+                console.log(st.length);
+                var delProd = new Array();
+                var j = 0;
+                while (j < st.length) {
+                  delProd.push(st[j].id);
+                  j++;
+                };
+                console.log(JSON.stringify(delProd));
+                if (confirm("是否确认删除")) {
+                  //console.log(JSON.stringify(delunit));
+                  $.ajax({
+                    type: "POST",
+                    url: "{% url 'delproduct' %}",
+                    data: {
+                      'ids': JSON.stringify(delProd),
+                    },
+                    success: function (ret) {
+                      console.log(ret);
+                      var subtable = $('#example1').DataTable();
+                      subtable.clear().draw();
+                      alert("删除成功");
+                    },
+                  });
+                }
               }
             }
-          }
-        },
-        {
-          extend: 'excel',
-          text: '导出excel',
-          filename: '单位表',
-          exportOptions: {
-            columns: ':visible',
+          },{% endif %}
+          {
+            extend: 'excel',
+            text: '导出excel',
+            filename: '单位表',
+            exportOptions: {
+              columns: ':visible',
+            },
+          }, 
+        ],
+        "autoWidth": true,
+        //"ajax": "{% url 'getdata' %}",
+        columns: [
+          {
+            "data": "id",
+            "bVisible": false
           },
-        }, {
-          text: '从excel导入',
-          filename: '单位表',
-          exportOptions: {
-            columns: ':visible',
+          {
+            orderable: false,
+            "defaultContent": 0,
+            'checkboxes': {
+              'selectRow': true
+            }
           },
-          action: function (e, dt, node, config) {
-            $('#file1').click();
+          { "data": "productId" },
+          { "data": "productName" },
+          { "data": "specification" },
+          { "data": "productBrand" },
+          { "data": "note", "defaultContent": "" },
+          { "data": "modified" },
+        ],
+        "bInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+        "language": {
+          "infoEmpty": "没有记录可以显示",
+          "info": "共_TOTAL_条记录",
+          "sZeroRecords": "没有匹配结果",
+          "loadingRecords": "数据正在加载中......",
+          "processing": "正在处理中......",
+          "search": "结果中搜索:",
+          "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+          "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "上页",
+            "sNext": "下页",
+            "sLast": "末页"
           },
+          "sEmptyTable": "未找到相关数据",
         },
-      ],
-      "autoWidth": true,
-      //"ajax": "{% url 'getdata' %}",
-      columns: [
-        {
-          "data": "id",
-          "bVisible": false
-        },
-        {
-          orderable: false,
-          "defaultContent": 0,
-          'checkboxes': {
-            'selectRow': true
-          }
-        },
-        { "data": "productId" },
-        { "data": "productName" },
-        { "data": "specification" },
-        { "data": "productBrand" },
-        { "data": "note", "defaultContent": "" },
-        { "data": "modified" },
-      ],
-      "bInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-      "language": {
-        "infoEmpty": "没有记录可以显示",
-        "info": "共_TOTAL_条记录",
-        "sZeroRecords": "没有匹配结果",
-        "loadingRecords": "数据正在加载中......",
-        "processing": "正在处理中......",
-        "search": "结果中搜索:",
-        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-        "oPaginate": {
-          "sFirst": "首页",
-          "sPrevious": "上页",
-          "sNext": "下页",
-          "sLast": "末页"
-        },
-        "sEmptyTable": "未找到相关数据",
-      },
-    });
+      });
 
     $("#searchButton").click(function () {
       var searchId = $("#searchId").val()
@@ -629,9 +698,11 @@
         },
         success: function (ret) {
           console.log(ret)
+          alert(ret)
         },
         error: function () {
           console.log('error');
+          alert('操作失败，请检查数据')
         }
       })
       $('#myModal').modal('hide');
@@ -930,7 +1001,6 @@
           console.log(ret);
           var subtable = $('#bomItems').DataTable();
           subtable.clear().draw();
-          console.log(ret);
           //subtable.ajax.url(ret).load();
           jsdata = $.parseJSON(ret);
           //console.log(jsdata[0].productId);
@@ -948,8 +1018,9 @@
               "unit": jsdata[i].unit,
               "modified": jsdata[i].modified,
             }).draw();
-          }
+          } 
           subtable.order([1, 'asc']).draw();
+          table.rows().deselect();
         },
         error: function () {
           console.log('error');
